@@ -10,7 +10,7 @@ I noticed Chrome (v56+) has a new FaceDetector API which basically lets you dete
 
 ## Notice
 
-🏴 To get the extension to work you’ll need to enable Chrome Experimental Features here: 
+🏴 To get the extension to work you’ll need to enable Chrome Experimental Features here: <br>
 `chrome://flags#enable-experimental-web-platform-features`
 
 💡If you’re in a dark setting it will probably be a bit buggy, as FaceDetector API is still not great in bad light. 
