@@ -1,11 +1,8 @@
+# Look Away
+**Experimental Chrome Extension - Look Away to Pause Youtube**
 
-<h1 align="center">
-  <br>
-  Look Away
-  <br>
-</h1>
 
-<h4 align="center">Experimental Chrome Extension - Look Away to Pause Youtube</h4>
+
 
 
 
