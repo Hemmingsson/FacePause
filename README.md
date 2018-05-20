@@ -1,6 +1,5 @@
 
 <h1 align="center">
-  <br><img src="resources/logotype.png?raw=true" alt="Freeze" width="487">
   <br>
   Look Away
   <br>
