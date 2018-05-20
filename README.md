@@ -17,6 +17,6 @@ I noticed Chrome (v56+) has a new FaceDetector API which basically lets you dete
 
 ## Credits
 
-- Chirag Bhatia’s [faceDetection Demo!](https://github.com/chirag64/live-face-detector/)
-- [Sentinel.js!](https://github.com/muicss/sentineljs)
+- Chirag Bhatia’s [faceDetection Demo](https://github.com/chirag64/live-face-detector/)
+- [Sentinel.js](https://github.com/muicss/sentineljs)
 - Christian for feedback
