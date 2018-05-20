@@ -10,12 +10,12 @@ I noticed Chrome (v56+) has a new FaceDetector API which basically lets you dete
 
 ## Notice
 
-- 🏴 To get the extension to work you’ll need to enable Chrome Experimental Features here: chrome://flags#enable-experimental-web-platform-features
+- 🏴 To get the extension to work you’ll need to enable Chrome Experimental Features here: [chrome://flags#enable-experimental-web-platform-features!](chrome://flags#enable-experimental-web-platform-features)
 
 - 💡If you’re in a dark setting it will probably be a bit buggy, as FaceDetector API is still not great in bad light. 
 
 ## Credits
 
-- Chirag Bhatia’s faceDetection Demo: https://github.com/chirag64/live-face-detector/
-- Sentinel.js: https://github.com/muicss/sentineljs
+- Chirag Bhatia’s [faceDetection Demo!](https://github.com/chirag64/live-face-detector/)
+- [Sentinel.js!](https://github.com/muicss/sentineljs)
 - Christian for feedback
