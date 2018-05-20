@@ -1,4 +1,4 @@
-# Look Away
+# Face Pause
 **Experimental Chrome Extension - Look Away to Pause Youtube**
 
 
