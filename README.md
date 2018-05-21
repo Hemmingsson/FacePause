@@ -28,7 +28,9 @@ You can install Face Pause from the [Chrome web store](https://chrome.google.com
 <a href="https://chrome.google.com/webstore/detail/kacdbklgelcjnoejpbafhdelhlnkgpnd">
     <img src="resources/CWS-dl.png" width="320">
  </a>
- <br>
+ <br> <br>
+ 
+ 
  Or manually donwload it [here](https://github.com/Hemmingsson/Face-Pause/releases/download/0.1/FacePause.zip) and follow the steps [here](https://github.com/Hemmingsson/Face-Pause#load-the-extension-in-chrome) 
 
 
