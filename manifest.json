@@ -4,8 +4,8 @@
   "manifest_version": 2,
   "description": "__MSG_appDescription__",
   "icons": {
-    "16": "icons/icon-16.png",
-    "128": "icons/icon-128.png"
+    "16": "icons/icon16.png",
+    "128": "icons/icon128.png"
   },
   "default_locale": "en",
   "background": {
@@ -28,8 +28,7 @@
   ],
   "browser_action": {
     "default_icon": {
-      "19": "icons/icon-19.png",
-      "38": "icons/icon-38.png"
+      "48": "icons/icon48.png"
     },
     "default_title": "Face Pause"
   }
