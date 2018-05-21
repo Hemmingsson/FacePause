@@ -158,8 +158,8 @@ const detectFaces = async function () {
     if (!faceWasDetected) {
       faceWasDetected = true
       setTimeout(function () {
-        // setPlayerVisability(false)
-      }, 1500)
+        setPlayerVisability(false)
+      }, 2000)
     }
 
     clearTimeout(detectionTimeOut)

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="64px" height="64px" viewBox="0 0 64 64" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="background: #FFFFFF;">
+    <!-- Generator: Sketch 49.3 (51167) - http://www.bohemiancoding.com/sketch -->
+    <title>Facepause-64x64</title>
+    <desc>Created with Sketch.</desc>
+    <defs></defs>
+    <g id="Facepause-64x64" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="Oval-5" stroke="#E6E6E8" stroke-width="6" cx="32" cy="32" r="29"></circle>
+        <path d="M8.49267599,48.9861139 C13.7613408,56.2647991 22.3276877,61 32,61 C41.9982025,61 50.8146572,55.9403364 56.0285622,48.2418112" id="Oval-5" stroke="#9013FE" stroke-width="6" stroke-linecap="round"></path>
+        <rect id="Rectangle-3" fill="#9013FE" x="28" y="20" width="6" height="24" rx="3"></rect>
+        <rect id="Rectangle-3" fill="#9013FE" x="42" y="20" width="6" height="24" rx="3"></rect>
+    </g>
+</svg>
