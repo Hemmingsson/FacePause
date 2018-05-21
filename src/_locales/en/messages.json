@@ -1,0 +1,10 @@
+{
+  "appName": {
+    "message": "FacePause",
+    "description": "The name of the extension."
+  },
+  "appDescription": {
+    "message": "Look Away to Pause Youtube - Experimental Extension",
+    "description": "The description of the extension."
+  }
+}
