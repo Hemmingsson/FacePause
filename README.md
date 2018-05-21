@@ -4,7 +4,7 @@
  <img src="resources/FacePause.png?raw=true" alt="Face Pause">
   <br>
    Face Pause
-  <br>
+
 </h1>
 
 #### Look Away to Pause Youtube - Experimental Chrome Extension
