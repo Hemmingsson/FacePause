@@ -59,7 +59,6 @@ You can install Freeze from the [Chrome web store](https://chrome.google.com/web
 The following tasks can be used when you want to start developing the extension
 
 - `npm run chrome-watch`
-- `npm run firefox-watch`
 
 
 
