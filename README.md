@@ -9,6 +9,7 @@
 #### Experimental Chrome Extension - Look Away to Pause Youtube
 
 <p align="center">
+  <br>
   <img align="center" src="https://media.giphy.com/media/2sdM8tdDlqZGY7g3bT/giphy.gif" width="430">
   <img align="center" src="https://media.giphy.com/media/lznFhXYLC4gekGsA3x/giphy.gif" width="430">
    <br><br>
