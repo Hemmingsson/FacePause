@@ -1,7 +1,8 @@
 
 
 <h1>
-  <br><img src="resources/CWS-dl.png?raw=true" alt="Face Pause" width="100">
+  <br><img src="resources/FacePause.png?raw=true" alt="Face Pause">
+  <br>
   Face Pause
   <br>
 </h1>
