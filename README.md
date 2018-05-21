@@ -15,7 +15,7 @@ Chrome (v56+) has a new FaceDetector API which basically lets you detect faces i
 <p align="left">
   <br>
   <img align="center" src="https://media.giphy.com/media/2sdM8tdDlqZGY7g3bT/giphy.gif" width="430">
-  <img align="center" src="https://media.giphy.com/media/lznFhXYLC4gekGsA3x/giphy.gif" width="430">
+  <!-- <img align="center" src="https://media.giphy.com/media/lznFhXYLC4gekGsA3x/giphy.gif" width="430"> -->
    <br><br>
 </p>
 
@@ -31,7 +31,7 @@ You can install Face Pause from the [Chrome web store](https://chrome.google.com
  </a>
  <br> <br>
 
-Or download this [release](https://github.com/Hemmingsson/Face-Pause/releases/download/0.1/FacePause.zip) and load it as an unpacked extension in Chrome.
+Or download the zip from this [release](https://github.com/Hemmingsson/Face-Pause/releases/tag/0.1) unzip it and load it as an unpacked extension in Chrome.
 
 ## Notice
 
