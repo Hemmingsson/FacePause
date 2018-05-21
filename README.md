@@ -23,15 +23,15 @@ Chrome (v56+) has a new FaceDetector API which basically lets you detect faces i
 
 ## How to install
 
-<!--
-You can install Face Pause from the [Chrome web store](https://chrome.google.com/webstore/detail/kacdbklgelcjnoejpbafhdelhlnkgpnd)
 
-<a href="https://chrome.google.com/webstore/detail/kacdbklgelcjnoejpbafhdelhlnkgpnd">
+You can install Face Pause from the [Chrome web store](https://chrome.google.com/webstore/detail/igoccmpimadoamkfabcpelmkhpgiafhd)
+
+<a href="https://chrome.google.com/webstore/detail/igoccmpimadoamkfabcpelmkhpgiafhd">
     <img src="resources/CWS-dl.png" width="320">
  </a>
  <br> <br>
- -->
-Download this [release](https://github.com/Hemmingsson/Face-Pause/releases/download/0.1/FacePause.zip) and load it as an unpacked extension in Chrome.
+
+Or download this [release](https://github.com/Hemmingsson/Face-Pause/releases/download/0.1/FacePause.zip) and load it as an unpacked extension in Chrome.
 
 ## Notice
 
