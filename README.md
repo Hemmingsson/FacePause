@@ -62,7 +62,7 @@ Or Download the Zip from This [Release](https://github.com/Hemmingsson/Face-Paus
 
 
 ### Developing
-The following tasks can be used when you want to start developing the extension
+The following task can be used when you want to start developing the extension
 
 - `npm run chrome-watch`
 
