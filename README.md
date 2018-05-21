@@ -45,7 +45,7 @@ Or download the zip from this [release](https://github.com/Hemmingsson/Face-Paus
 - [Extension Boilerplate](https://github.com/EmailThis/extension-boilerplate)
 - [Sentinel.js](https://github.com/muicss/sentineljs)
 - Chirag Bhatia’s [faceDetection Demo](https://github.com/chirag64/live-face-detector/)
-- Christian for icon, testing & feedback
+- Thanks to Christian for icon, testing & feedback
 
 ## Development
 
