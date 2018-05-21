@@ -24,7 +24,7 @@ Chrome (v56+) has a new FaceDetector API which basically lets you detect faces i
 
 ## How to install
 
-You can install Freeze from the [Chrome web store](https://chrome.google.com/webstore/detail/kacdbklgelcjnoejpbafhdelhlnkgpnd)
+You can install Face Pause from the [Chrome web store](https://chrome.google.com/webstore/detail/kacdbklgelcjnoejpbafhdelhlnkgpnd)
 
 <a href="https://chrome.google.com/webstore/detail/kacdbklgelcjnoejpbafhdelhlnkgpnd">
     <img src="resources/CWS-dl.png" width="320">
