@@ -6,7 +6,7 @@
   <br>
 </h1>
 
-#### Experimental Chrome Extension - Look Away to Pause Youtube
+#### Look Away to Pause Youtube - Experimental Chrome Extension
 
 <p align="center">
   <br>
