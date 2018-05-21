@@ -43,7 +43,7 @@ You can install Face Pause from the [Chrome web store](https://chrome.google.com
 - [Extension Boilerplate](https://github.com/EmailThis/extension-boilerplate)
 - [Sentinel.js](https://github.com/muicss/sentineljs)
 - Chirag Bhatia’s [faceDetection Demo](https://github.com/chirag64/live-face-detector/)
-- Christian for feedback & icon
+- Christian for icon, testing & feedback
 
 ## Development
 
