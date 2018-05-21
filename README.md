@@ -35,7 +35,14 @@ You can install Freeze from the [Chrome web store](https://chrome.google.com/web
 
 - 💡If you’re in a dark setting it will probably be a bit buggy, as FaceDetector API is still not great in bad light. 
 
-## Dev Environement
+
+## Credits
+- [Extension Boilerplate](https://github.com/EmailThis/extension-boilerplate)
+- [Sentinel.js](https://github.com/muicss/sentineljs)
+- Chirag Bhatia’s [faceDetection Demo](https://github.com/chirag64/live-face-detector/)
+- Christian for feedback & icon
+
+## Development
 
 ### Installation
 1. Clone the repository `git clone https://github.com/Hemmingsson/Face-Pause`
@@ -55,8 +62,4 @@ The following tasks can be used when you want to start developing the extension
 - `npm run firefox-watch`
 
 
-## Credits
-- [Extension Boilerplate](https://github.com/EmailThis/extension-boilerplate)
-- [Sentinel.js](https://github.com/muicss/sentineljs)
-- Chirag Bhatia’s [faceDetection Demo](https://github.com/chirag64/live-face-detector/)
-- Christian for feedback & icon
+
