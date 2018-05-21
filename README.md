@@ -1,9 +1,11 @@
 
-# Face Pause
+
+<h1 align="center">
+  <br><img src="resources/FacePause.svg?raw=true" alt="Face Pause" width="100">
+  Face Pause
+  <br>
+</h1>
 #### Experimental Chrome Extension - Look Away to Pause Youtube
-
-
-
 
 <p align="center">
   <img align="center" src="https://media.giphy.com/media/2sdM8tdDlqZGY7g3bT/giphy.gif" width="430">
