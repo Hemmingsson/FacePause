@@ -31,7 +31,7 @@ You can install Face Pause from the [Chrome web store](https://chrome.google.com
  </a>
  <br> <br>
  -->
-You can download this [release](https://github.com/Hemmingsson/Face-Pause/releases/download/0.1/FacePause.zip) and load it as an unpacked extension in Chrome.
+Download this [release](https://github.com/Hemmingsson/Face-Pause/releases/download/0.1/FacePause.zip) and load it as an unpacked extension in Chrome.
 
 ## Notice
 
