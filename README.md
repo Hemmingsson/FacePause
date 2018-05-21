@@ -1,12 +1,6 @@
 
-<h1 align="center">
-  <br><img src="https://i.imgur.com/e82Jq2W.png" alt="Freeze" width="300">
-  <br>
-  Face Pause
-  <br>
-</h1>
-
-<h4 align="center">Experimental Chrome Extension - Look Away to Pause Youtube</h4>
+# Face Pause
+#### Experimental Chrome Extension - Look Away to Pause Youtube
 
 
 
