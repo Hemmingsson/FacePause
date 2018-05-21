@@ -2,7 +2,8 @@
 
 <h1>
   <br><img src="resources/FacePause.png?raw=true" alt="Face Pause">
-  Face Pause
+  <br>
+   Face Pause
   <br>
 </h1>
 
