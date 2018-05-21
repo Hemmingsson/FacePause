@@ -19,7 +19,7 @@
 
 
 
-Chrome (v56+) has a new FaceDetector API which basically lets you detect faces in images easily, so what if we could pause the youtube video you are watching when you look away or going to make a sandwich 🍞?
+Chrome (v56+) has a new FaceDetector API which basically lets you detect faces in images easily, so what if we could pause youtube when you look away or going to make a sandwich 🍞?
 
 
 ## How to install
