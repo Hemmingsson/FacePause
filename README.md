@@ -12,15 +12,16 @@
 
 Chrome (v56+) has a new FaceDetector API which basically lets you detect faces in images easily, so what if we could pause Youtube when you look away or going to make a sandwich 🍞?
 
-<p align="left">
+
   <br>
   <img align="center" src="https://media.giphy.com/media/2sdM8tdDlqZGY7g3bT/giphy.gif" width="430">
-  <!-- <img align="center" src="https://media.giphy.com/media/lznFhXYLC4gekGsA3x/giphy.gif" width="430"> -->
-   <br><br>
-</p>
 
 
 
+See a video demo [here](https://youtu.be/CL_B7iVpg4M)
+
+   <br>
+   
 ## How to install
 
 
