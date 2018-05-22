@@ -10,7 +10,7 @@
 #### Look Away to Pause Youtube - Experimental Chrome Extension
 
 
-Chrome (v56+) has a new FaceDetector API which basically lets you detect faces in images easily, so what if we could pause youtube when you look away or going to make a sandwich 🍞?
+Chrome (v56+) has a new FaceDetector API which basically lets you detect faces in images easily, so what if we could pause Youtube when you look away or going to make a sandwich 🍞?
 
 <p align="left">
   <br>
@@ -24,7 +24,7 @@ Chrome (v56+) has a new FaceDetector API which basically lets you detect faces i
 ## How to install
 
 
-You can install Face Pause from the [Chrome web store](https://chrome.google.com/webstore/detail/igoccmpimadoamkfabcpelmkhpgiafhd)
+You can install FacePause from the [Chrome web store](https://chrome.google.com/webstore/detail/igoccmpimadoamkfabcpelmkhpgiafhd)
 
 <a href="https://chrome.google.com/webstore/detail/igoccmpimadoamkfabcpelmkhpgiafhd">
     <img src="resources/CWS-dl.png" width="320">
@@ -35,7 +35,7 @@ Or Download the Zip from This [Release](https://github.com/Hemmingsson/Face-Paus
 
 ## Notice
 
-- 🙀I don’t trust my webcam, so i have it covered and I don’t trust youtube/google so see this more as an experiment of chromes new technology, than a product you'd use everyday. 
+- 🙀 I don’t trust my webcam, so I have it covered and I don’t trust Youtube/Google so see this more as an experiment of Chromes new technology, than a product you'd use every day. 
 - 🏴 To get the extension to work you’ll need to enable Chrome Experimental Features here: <br>
 `chrome://flags#enable-experimental-web-platform-features`
 
