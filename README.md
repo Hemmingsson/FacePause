@@ -32,7 +32,7 @@ You can install FacePause from the [Chrome web store](https://chrome.google.com/
  </a>
  <br> <br>
 
-Or Download the Zip from This [Release](https://github.com/Hemmingsson/Face-Pause/releases/tag/0.1), Unzip It and Load It as an Unpacked Extension in Chrome.
+Or download the Zip from this [release](https://github.com/Hemmingsson/Face-Pause/releases/tag/0.1), unzip it and load it as an unpacked extension in Chrome.
 
 ## Notice
 
