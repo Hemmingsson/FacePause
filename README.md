@@ -10,7 +10,7 @@
 #### Look Away to Pause Youtube - Experimental Chrome Extension
 
 
-Chrome (v56+) has a new FaceDetector API which basically lets you detect faces in images easily, so what if we could pause Youtube when you look away or going for a sandwich 🥪?
+Chrome (v56+) has a new FaceDetector API which basically lets you detect faces in images easily, so what if we could pause Youtube when you look away or going for a sandwich 🥪🥖🥪?
 
 
   <br>
