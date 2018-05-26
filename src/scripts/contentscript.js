@@ -9,10 +9,6 @@ let webCamStream
 let undetectedTimer
 let detectInterval
 
-/* ==========================================================================
-   Ext Functionality
-   ========================================================================== */
-
 // When Video player appears in the wild, Inititate Extension
 sentinel.on('#movie_player', elm => initExtension())
 
@@ -42,47 +38,50 @@ const initCapture = () => {
 
 const startCapture = (stream, video, canvas, context, timeOut) => {
   streamWebCam(stream, video)
-  updateStatus(status.startingDetection)
   toggleCameraIcon()
   blinkCameraIcon(true)
-  showCaptureVideo(true)
   startFaceDetection(video, canvas, context)
+  showCaptureWindow(true)
+  updateStatus(status.startingDetection)
 }
 
 const stopCapture = () => {
-  clearInterval(detectInterval)
-  if (webCamStream) webCamStream.getTracks()[0].stop()
   faceWasDetectedOnce = false
-  document.querySelector('.disable input').checked = false
+  clearInterval(detectInterval)
+  stopWebCam()
   toggleCameraIcon()
   blinkCameraIcon(false)
+  document.querySelector('.disable input').checked = false
+  showCaptureWindow(false)
   updateStatus(status.extensionDisabled)
-  showCaptureVideo(false)
 }
 
-const toggleCapture = e => {
-  if (e.srcElement.checked) { initCapture() } else { stopCapture() }
+const failToCapture = () => {
+  stopCapture()
+  updateStatus(status.webCameBlocked)
 }
+
+const toggleCapture = e => e.srcElement.checked ? initCapture() : stopCapture()
 
 /* ==========================================================================
    Interactions
    ========================================================================== */
 
 const interactions = () => {
-  let elmStatus = document.querySelector('.status')
-  let elmDisable = document.querySelector('.disable input')
-  let elmYtPlayerButton = document.querySelector('#movie_player .ytp-play-button')
+  const elmStatus = document.querySelector('.status')
+  const elmDisable = document.querySelector('.disable input')
+  const elmYtPlayerButton = document.querySelector('#movie_player .ytp-play-button')
 
   elmStatus.addEventListener('click', togglePlayerVisebility)
   elmDisable.addEventListener('click', toggleCapture)
 
-  // When a user hits space or k, disable extension
+  // When a user hits the play button, space or k, disable extension
   elmYtPlayerButton.addEventListener('click', userPause)
   window.addEventListener('keydown', e => { if (e.keyCode === 75) { userPause() } })
 }
 
 const userPause = () => {
-  if (isExtesnionActive() && !isYoutTubePlaying()) {
+  if (isExtensionActive() && !isYoutTubePlaying()) {
     stopCapture()
     videoPause()
   }
@@ -99,15 +98,14 @@ const askForWebCamAccess = () => new Promise((resolve, reject) => {
   } else { reject() }
 })
 
-const failToCapture = () => {
-  stopCapture()
-  updateStatus(status.webCameBlocked)
-}
-
 const streamWebCam = (stream, video) => {
   video.src = window.URL.createObjectURL(stream)
   webCamStream = stream
   video.play()
+}
+
+const stopWebCam = () => {
+  if (webCamStream) webCamStream.getTracks()[0].stop()
 }
 
 /* ==========================================================================
@@ -134,14 +132,14 @@ const faceDetected = (faces, context) => {
   if (!isYoutTubePlaying()) videoPlays()
   if (!faceWasDetectedOnce) {
     faceWasDetectedOnce = true
-    setTimeout(() => { showCaptureVideo(false) }, 2000)
+    setTimeout(() => { showCaptureWindow(false) }, 2000)
   }
 }
 
 const faceUndetected = (faces, canvas) => {
   undetectedTimer = setTimeout(async () => {
     const faces = await faceDetector.detect(canvas)
-    if (isExtesnionActive() && !faces.length && faceWasDetectedOnce && isYoutTubePlaying()) {
+    if (isExtensionActive() && !faces.length && faceWasDetectedOnce && isYoutTubePlaying()) {
       videoPause()
       updateStatus(status.undetected)
     }
@@ -172,7 +170,7 @@ const enableSwitch = () => {
   elmDisable.disabled = false
 }
 
-const showCaptureVideo = visible => {
+const showCaptureWindow = visible => {
   let elmWebcam = document.querySelector('.webcam')
   visible ? elmWebcam.classList.add('--visible') : elmWebcam.classList.remove('--visible')
 }
@@ -190,7 +188,7 @@ const toggleElmClass = (elmSelector, toggleClassName) => {
 
 const toggleCameraIcon = () => toggleElmClass('.status', '--on')
 
-const togglePlayerVisebility = () => isExtesnionActive() ? toggleElmClass('.webcam', '--visible') : showCaptureVideo(false)
+const togglePlayerVisebility = () => isExtensionActive() ? toggleElmClass('.webcam', '--visible') : showCaptureWindow(false)
 
 const videoPlays = () => document.querySelector('#movie_player video').play()
 
@@ -215,20 +213,17 @@ const status = {
 const updateStatus = status => {
   let elmMessage = document.querySelector('.message')
   if (elmMessage.innerHTML !== status) elmMessage.innerHTML = status
-  if (status === status.enableExperimental) openExperimentalFeaturesTab()
+  if (status === status.enableExperimental) experimentalFeaturesLink()
 }
 
 /* ==========================================================================
    Helpers
    ========================================================================== */
 
-const isYoutTubePlaying = () => !document.querySelector('#movie_player video').paused
+const isExtensionActive = () => document.querySelector('.disable input').checked
 
-const isExtesnionActive = () => {
-  let elmDisable = document.querySelector('.disable input')
-  return elmDisable.checked
-}
+const isYoutTubePlaying = () => !document.querySelector('#movie_player video').paused
 
 const isExtensionExisting = () => document.querySelector('.extension')
 
-const openExperimentalFeaturesTab = () => document.querySelector('.extension a').addEventListener('click', () => { chrome.runtime.sendMessage('openFlags') })
+const experimentalFeaturesLink = () => document.querySelector('.extension a').addEventListener('click', () => { chrome.runtime.sendMessage('openFlags') })
