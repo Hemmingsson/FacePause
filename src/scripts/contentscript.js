@@ -1,126 +1,90 @@
 
-var sentinel = require('sentinel-js')
+const sentinel = require('sentinel-js')
 
-/* ==========================================================================
-   Lets & Consts
-   ========================================================================== */
-
-// Extesnion Html
-const htmlStr = '<div class="extension"> <section class="webcam"> <div class="webcam__inner"> <video id="webcam-player" width="0" height="0" autoplay></video> <canvas id="webcam-canvas"></canvas> </div></section> <section class="message">Face Pause Disabled</section> <section class="status"> </section> <section class="disable"> <label class="switch"> <input type="checkbox" disabled> <span class="slider round"></span> </label> </section></div>'
-// Video & Canvas elms
-let video
-let canvas
-let context
-// Detection
-let faceWasDetected = false
+const extensionMarkup = '<div class="extension"> <section class="webcam"> <div class="webcam__inner"> <video id="webcam-player" width="0" height="0" autoplay></video> <canvas id="webcam-canvas"></canvas> </div></section> <section class="message">FacePause Disabled</section> <section class="status"> </section> <section class="disable"> <label class="switch"> <input type="checkbox" disabled> <span class="slider round"></span> </label> </section></div>'
+const detectionBoxColor = '#00d647'
+let faceWasDetectedOnce
 let faceDetector
-let webcamStream
-// Timouts & Intervalls
-let detectionTimeOut
-let allowTimeOut
+let webCamStream
+let undetectedTimer
 let detectInterval
-
-/* ==========================================================================
-   Look for Video player, append  Extension into DOM and Inititate
-   ========================================================================== */
-
-sentinel.on('#movie_player', function (elm) {
-  initExtension()
-  console.log('BAJS')
-})
 
 /* ==========================================================================
    Ext Functionality
    ========================================================================== */
 
-const initExtension = function () {
-  if (!extensionExists()) {
-    document.body.insertAdjacentHTML('beforeend', htmlStr)
-    if ('FaceDetector' in window) { enableSwitch() } else { setMessage('apiError') }
+// When Video player appears in the wild, Inititate Extension
+sentinel.on('#movie_player', elm => initExtension())
+
+const initExtension = () => {
+  if (!isExtensionExisting()) {
+    appendExtensionMarkup(extensionMarkup)
+    'FaceDetector' in window ? enableSwitch() : updateStatus(status.enableExperimental)
     interactions()
   }
 }
 
-const toggleCapture = function (e) {
-  if (e.srcElement.checked) { startCapture() } else { stopCapture() }
-}
-
-const startCapture = function () {
-  // Initializing video & canvas lets
-  video = document.querySelector('#webcam-player')
-  canvas = document.querySelector('#webcam-canvas')
-  context = canvas.getContext('2d')
-  // Set up facedetector
+const initCapture = async () => {
+  const elmVideo = document.querySelector('#webcam-player')
+  const elmCanvas = document.querySelector('#webcam-canvas')
+  const canvasContext = elmCanvas.getContext('2d')
   if (faceDetector === undefined) faceDetector = new FaceDetector()
-  // Ask to access Webcam
-  accessCamera()
-  allowTimeOut = setTimeout(function () { setMessage('allow') }, 1400) // show help message to allow webcam connection
-  // Start detecting faces
-  detectInterval = setInterval(function () {
-    // Draw webcam piture
-    context.drawImage(video, 0, 0, canvas.width, canvas.height)
-    // Detect faces
-    detectFaces()
-  }, 100)
+  // show help message to allow webcam connection if no action is taken for 2 seconds
+  let allowMessageTimeOut = setTimeout(() => { updateStatus(status.allowWebCam) }, 2000)
+  askForWebCamAccess().then(stream => {
+    startCapture(stream, elmVideo, elmCanvas, canvasContext)
+    clearTimeout(allowMessageTimeOut)
+  }).catch(() => {
+    failToCapture()
+    clearTimeout(allowMessageTimeOut)
+  })
 }
 
-const stopCapture = function () {
-  // Stop Checking for faces
+const startCapture = (stream, video, canvas, context, timeOut) => {
+  streamWebCam(stream, video)
+  updateStatus(status.startingDetection)
+  toggleCameraIcon()
+  blinkCameraIcon(true)
+  showCaptureVideo(true)
+  startFaceDetection(video, canvas, context)
+}
+
+const stopCapture = () => {
   clearInterval(detectInterval)
-  // Stop Webcam
-  webcamStream.getTracks()[0].stop()
-  // Reset Detection bool
-  faceWasDetected = false
-  // Set switch to Off
+  if (webCamStream) webCamStream.getTracks()[0].stop()
+  faceWasDetectedOnce = false
   document.querySelector('.disable input').checked = false
-  // Reset camera icon
   toggleCameraIcon()
   blinkCameraIcon(false)
-  // Set Status Message
-  setMessage('disabled')
-  // Hide webcam window
-  setPlayerVisability(false)
+  updateStatus(status.extensionDisabled)
+  showCaptureVideo(false)
 }
 
-const beginPause = function () {
-  detectionTimeOut = setTimeout(async function () {
-    // Check if face is detected after 1 second
-    const faces = await faceDetector.detect(canvas)
-    if (!faces.length) { // if still no face in camera
-      if (isSwitchOn()) {
-        setMessage('notDetected')
-      }
-      if (isYoutTubePlaying()) {
-        document.querySelector('#movie_player video').pause()
-      }
-    }
-  }, 1000)
+const toggleCapture = e => {
+  if (e.srcElement.checked) { initCapture() } else { stopCapture() }
 }
 
 /* ==========================================================================
    Interactions
    ========================================================================== */
 
-const interactions = function () {
+const interactions = () => {
   let elmStatus = document.querySelector('.status')
   let elmDisable = document.querySelector('.disable input')
+  let elmYtPlayerButton = document.querySelector('#movie_player .ytp-play-button')
 
-  elmStatus.addEventListener('click', togglePlayer)
+  elmStatus.addEventListener('click', togglePlayerVisebility)
   elmDisable.addEventListener('click', toggleCapture)
 
-  listenForUserPause()
+  // When a user hits space or k, disable extension
+  elmYtPlayerButton.addEventListener('click', userPause)
+  window.addEventListener('keydown', e => { if (e.keyCode === 75) { userPause() } })
 }
 
-const listenForUserPause = function () {
-  let ytPlay = document.querySelector('#movie_player .ytp-play-button')
-  ytPlay.addEventListener('click', activePause)
-  window.addEventListener('keydown', function (e) { if (e.keyCode === 75) { activePause() } })
-}
-
-const activePause = function () {
-  if (!isYoutTubePlaying() && isSwitchOn()) {
+const userPause = () => {
+  if (isExtesnionActive() && !isYoutTubePlaying()) {
     stopCapture()
-    document.querySelector('#movie_player video').pause()
+    videoPause()
   }
 }
 
@@ -128,59 +92,72 @@ const activePause = function () {
    Webcam
    ========================================================================== */
 
-const accessCamera = function () {
-  if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-    navigator.mediaDevices.getUserMedia({ video: true }).then(function (stream) {
-      // Play webcam in video element
-      video.src = window.URL.createObjectURL(stream)
-      webcamStream = stream
-      video.play()
-      // Stop allow webcam message from showing and show Start message instead
-      clearTimeout(allowTimeOut)
-      // Set start Message
-      setMessage('init')
-      // Set correct camera icon
-      toggleCameraIcon()
-      blinkCameraIcon(true)
-      // Show webcam window
-      setPlayerVisability(true)
-    })
-  }
+const askForWebCamAccess = () => new Promise((resolve, reject) => {
+  const mediaDevicesAvalible = navigator.mediaDevices && navigator.mediaDevices.getUserMedia
+  if (mediaDevicesAvalible) {
+    navigator.mediaDevices.getUserMedia({ video: true }).then(resolve).catch(reject)
+  } else { reject() }
+})
+
+const failToCapture = () => {
+  stopCapture()
+  updateStatus(status.webCameBlocked)
+}
+
+const streamWebCam = (stream, video) => {
+  video.src = window.URL.createObjectURL(stream)
+  webCamStream = stream
+  video.play()
 }
 
 /* ==========================================================================
    Face Detection
    ========================================================================== */
 
-const detectFaces = async function () {
+const startFaceDetection = (video, canvas, context) => {
+  detectInterval = setInterval(() => {
+    renderWebCam(video, canvas, context)
+    detectFaces(canvas, context)
+  }, 100)
+}
+
+const detectFaces = async (canvas, context) => {
   const faces = await faceDetector.detect(canvas)
-  if (faces.length) {
-    if (!faceWasDetected) {
-      faceWasDetected = true
-      setTimeout(function () {
-        setPlayerVisability(false)
-      }, 2000)
-    }
+  const faceWasDetected = faces.length
+  faceWasDetected ? faceDetected(faces, context) : faceUndetected(faces, canvas)
+}
 
-    clearTimeout(detectionTimeOut)
-    drawFaces(faces)
-    setMessage('detected')
-
-    if (!isYoutTubePlaying()) {
-      document.querySelector('#movie_player video').play()
-    }
-  } else {
-    if (faceWasDetected) {
-      beginPause()
-    }
+const faceDetected = (faces, context) => {
+  clearTimeout(undetectedTimer)
+  updateStatus(status.detected)
+  drawFaces(faces, context)
+  if (!isYoutTubePlaying()) videoPlays()
+  if (!faceWasDetectedOnce) {
+    faceWasDetectedOnce = true
+    setTimeout(() => { showCaptureVideo(false) }, 2000)
   }
 }
 
-const drawFaces = function (faces) {
-  const color = '#00d647'
+const faceUndetected = (faces, canvas) => {
+  undetectedTimer = setTimeout(async () => {
+    const faces = await faceDetector.detect(canvas)
+    if (isExtesnionActive() && !faces.length && isYoutTubePlaying()) {
+      videoPause()
+      updateStatus(status.undetected)
+    }
+  }, 1000)
+}
+
+/* ==========================================================================
+   Canvas Rendering
+   ========================================================================== */
+
+const renderWebCam = (video, canvas, context) => context.drawImage(video, 0, 0, canvas.width, canvas.height)
+
+const drawFaces = (faces, context) => {
   faces.forEach(face => {
     const { width, height, top, left } = face.boundingBox
-    context.strokeStyle = color
+    context.strokeStyle = detectionBoxColor
     context.lineWidth = 4
     context.strokeRect(left, top, width, height)
   })
@@ -190,81 +167,68 @@ const drawFaces = function (faces) {
    DOM manupilation
    ========================================================================== */
 
-const enableSwitch = function () {
+const enableSwitch = () => {
   let elmDisable = document.querySelector('.disable input')
   elmDisable.disabled = false
 }
 
-const togglePlayer = function () {
-  if (isSwitchOn()) {
-    toggleElmClass('.webcam', '--visible')
-  } else {
-    setPlayerVisability(false)
-  }
-}
-
-const setPlayerVisability = function (visible) {
+const showCaptureVideo = visible => {
   let elmWebcam = document.querySelector('.webcam')
-  if (visible) {
-    elmWebcam.classList.add('--visible')
-  } else {
-    elmWebcam.classList.remove('--visible')
-  }
+  visible ? elmWebcam.classList.add('--visible') : elmWebcam.classList.remove('--visible')
 }
 
-const toggleCameraIcon = function () {
-  toggleElmClass('.status', '--on')
-}
-
-const blinkCameraIcon = function (blink) {
+const blinkCameraIcon = blink => {
   let elmIcon = document.querySelector('.status')
-  if (blink) {
-    elmIcon.classList.add('--recording')
-  } else {
-    elmIcon.classList.remove('--recording')
-  }
+  let animationSelector = '--recording'
+  blink ? elmIcon.classList.add(animationSelector) : elmIcon.classList.remove(animationSelector)
 }
 
-const toggleElmClass = function (elmSelector, toggleClassName) {
+const toggleElmClass = (elmSelector, toggleClassName) => {
   let elmWebcam = document.querySelector(elmSelector)
   elmWebcam.classList.toggle(toggleClassName)
 }
 
-const setMessage = function (state) {
+const toggleCameraIcon = () => toggleElmClass('.status', '--on')
+
+const togglePlayerVisebility = () => isExtesnionActive() ? toggleElmClass('.webcam', '--visible') : showCaptureVideo(false)
+
+const videoPlays = () => document.querySelector('#movie_player video').play()
+
+const videoPause = () => document.querySelector('#movie_player video').pause()
+
+const appendExtensionMarkup = html => document.body.insertAdjacentHTML('beforeend', html)
+
+/* ==========================================================================
+   Status message
+   ========================================================================== */
+
+const status = {
+  enableExperimental: 'To Use FaceDetector API, Enable Experimental Features in Chrome <a href="chrome://flags#enable-experimental-web-platform-features">here</a>',
+  allowWebCam: 'Allow Access to the Webcam Through the Dialog in Upper Left Corner',
+  detected: 'Face Detected',
+  undetected: 'No Face Detected',
+  extensionDisabled: 'FacePause Disabled',
+  startingDetection: 'Detecting face...',
+  webCameBlocked: 'You have blocked acces to the webcam, click the 🔒 to the left of the address bar to change'
+}
+
+const updateStatus = status => {
   let elmMessage = document.querySelector('.message')
-  if (state === 'apiError') {
-    elmMessage.innerHTML = 'To Use FaceDetector API, Enable Experimental Features in Chrome <a href="chrome://flags#enable-experimental-web-platform-features">here</a>'
-    document.querySelector('.extension a').addEventListener('click', function () { chrome.runtime.sendMessage('openFlags') })
-  } else if (state === 'allow') {
-    elmMessage.innerHTML = 'Allow Access to the Webcam Through the Dialog in Upper Left Corner'
-  } else if (state === 'detected') {
-    let str = 'Face Detected'
-    if (elmMessage.innerHTML !== str) { elmMessage.innerHTML = str }
-  } else if (state === 'notDetected') {
-    let str = 'No Face Detected'
-    if (elmMessage.innerHTML !== str) { elmMessage.innerHTML = str }
-  } else if (state === 'disabled') {
-    elmMessage.innerHTML = 'Face Play Disabled'
-  } else if (state === 'init') {
-    elmMessage.innerHTML = 'Detecting face...'
-  } else {
-    elmMessage.innerHTML = ''
-  }
+  if (elmMessage.innerHTML !== status) elmMessage.innerHTML = status
+  if (status === status.enableExperimental) openExperimentalFeaturesTab()
 }
 
 /* ==========================================================================
    Helpers
    ========================================================================== */
 
-const isSwitchOn = function () {
+const isYoutTubePlaying = () => !document.querySelector('#movie_player video').paused
+
+const isExtesnionActive = () => {
   let elmDisable = document.querySelector('.disable input')
   return elmDisable.checked
 }
 
-const isYoutTubePlaying = function () {
-  return !document.querySelector('#movie_player video').paused
-}
+const isExtensionExisting = () => document.querySelector('.extension')
 
-const extensionExists = function () {
-  return document.querySelector('.extension')
-}
+const openExperimentalFeaturesTab = () => document.querySelector('.extension a').addEventListener('click', () => { chrome.runtime.sendMessage('openFlags') })
