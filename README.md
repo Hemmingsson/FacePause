@@ -37,7 +37,7 @@ Or download the Zip from this [release](https://github.com/Hemmingsson/Face-Paus
 
 ## Notice
 
-- 🙀 I don’t trust my webcam, so I have it covered and I don’t trust Youtube/Google so see this more as an experiment of Chromes new technology, than a product you'd use every day. 
+- 🙀 I don’t trust my webcam, so I have it covered, see this more as an experiment of Chromes new technology, than a product you'd use every day. 
 - 🏴 To get the extension to work you’ll need to enable Chrome Experimental Features here: <br>
 `chrome://flags#enable-experimental-web-platform-features`
 
