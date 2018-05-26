@@ -24,7 +24,7 @@ const initExtension = () => {
   }
 }
 
-const initCapture = async () => {
+const initCapture = () => {
   const elmVideo = document.querySelector('#webcam-player')
   const elmCanvas = document.querySelector('#webcam-canvas')
   const canvasContext = elmCanvas.getContext('2d')
@@ -116,7 +116,7 @@ const streamWebCam = (stream, video) => {
 
 const startFaceDetection = (video, canvas, context) => {
   detectInterval = setInterval(() => {
-    renderWebCam(video, canvas, context)
+    drawWebCam(video, canvas, context)
     detectFaces(canvas, context)
   }, 100)
 }
@@ -130,7 +130,7 @@ const detectFaces = async (canvas, context) => {
 const faceDetected = (faces, context) => {
   clearTimeout(undetectedTimer)
   updateStatus(status.detected)
-  drawFaces(faces, context)
+  drawFaceBoxes(faces, context)
   if (!isYoutTubePlaying()) videoPlays()
   if (!faceWasDetectedOnce) {
     faceWasDetectedOnce = true
@@ -141,7 +141,7 @@ const faceDetected = (faces, context) => {
 const faceUndetected = (faces, canvas) => {
   undetectedTimer = setTimeout(async () => {
     const faces = await faceDetector.detect(canvas)
-    if (isExtesnionActive() && !faces.length && isYoutTubePlaying()) {
+    if (isExtesnionActive() && !faces.length && faceWasDetectedOnce && isYoutTubePlaying()) {
       videoPause()
       updateStatus(status.undetected)
     }
@@ -152,9 +152,9 @@ const faceUndetected = (faces, canvas) => {
    Canvas Rendering
    ========================================================================== */
 
-const renderWebCam = (video, canvas, context) => context.drawImage(video, 0, 0, canvas.width, canvas.height)
+const drawWebCam = (video, canvas, context) => context.drawImage(video, 0, 0, canvas.width, canvas.height)
 
-const drawFaces = (faces, context) => {
+const drawFaceBoxes = (faces, context) => {
   faces.forEach(face => {
     const { width, height, top, left } = face.boundingBox
     context.strokeStyle = detectionBoxColor
