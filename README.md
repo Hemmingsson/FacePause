@@ -19,7 +19,7 @@ Chrome (v56+) has a new FaceDetector API which basically lets you detect faces i
 
 
 
-Watch a video demo [here](https://youtu.be/CL_B7iVpg4M)
+▶️ [Watch video demo](https://youtu.be/CL_B7iVpg4M)
 
    <br>
    
