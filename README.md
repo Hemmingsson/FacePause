@@ -3,7 +3,7 @@
 <h1>
  <img src="resources/FacePause.png?raw=true" alt="Face Pause">
   <br>
-   FacePause  <a href="https://chrome.google.com/webstore/detail/igoccmpimadoamkfabcpelmkhpgiafhd"><img  src="https://img.shields.io/chrome-web-store/v/igoccmpimadoamkfabcpelmkhpgiafhd.svg"> <img src="https://img.shields.io/chrome-web-store/users/igoccmpimadoamkfabcpelmkhpgiafhd.svg"></a>
+   FacePause  <a href="https://chrome.google.com/webstore/detail/igoccmpimadoamkfabcpelmkhpgiafhd"><img  src="https://img.shields.io/chrome-web-store/v/igoccmpimadoamkfabcpelmkhpgiafhd.svg"></a> <a href="https://chrome.google.com/webstore/detail/igoccmpimadoamkfabcpelmkhpgiafhd"><img src="https://img.shields.io/chrome-web-store/users/igoccmpimadoamkfabcpelmkhpgiafhd.svg"></a>
   
 </h1>
 
