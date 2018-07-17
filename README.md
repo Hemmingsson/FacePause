@@ -20,8 +20,10 @@ Chrome (v56+) has a new FaceDetector API which basically lets you detect faces i
 
 
 ▶️ [Watch video demo](https://youtu.be/CL_B7iVpg4M)
+<br>
+📖 Or read more about it on [Gizmodo](https://gizmodo.com/this-creepy-chrome-extension-pauses-youtube-for-you-whe-1826257465) or [9to5Google](https://9to5google.com/2018/05/22/facepause-experimental-chrome-extension/)
+   <br> 
 
-   <br>
    
 ## How to install
 
