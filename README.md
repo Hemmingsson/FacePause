@@ -43,13 +43,6 @@ Or download the Zip from this [release](https://github.com/Hemmingsson/Face-Paus
 
 - 💡If you’re in a dark setting it will probably be a bit buggy, as FaceDetector API is still not great in bad light. 
 
-
-## Credits
-- [Extension Boilerplate](https://github.com/EmailThis/extension-boilerplate)
-- [Sentinel.js](https://github.com/muicss/sentineljs)
-- Chirag Bhatia’s [faceDetection Demo](https://github.com/chirag64/live-face-detector/)
-- Thanks to Christian for icon, testing & feedback
-
 ## Development
 
 ### Installation
