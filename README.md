@@ -62,4 +62,9 @@ The following task can be used when you want to start developing the extension
 - `npm run chrome-watch`
 
 
+----
+
+<a href="https://www.producthunt.com/posts/facepause?utm_source=badge-featured&utm_medium=badge&utm_souce=badge-facepause" target="_blank"><img src="https://api.producthunt.com/widgets/embed-image/v1/featured.svg?post_id=127262&theme=light" alt="FacePause - Look away to pause YouTube videos | Product Hunt Embed" style="width: 250px; height: 54px;" width="250px" height="54px" /></a>
+
+
 
