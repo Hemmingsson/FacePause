@@ -3,8 +3,7 @@
 <h1>
  <img src="resources/FacePause.png?raw=true" alt="Face Pause">
   <br>
-   FacePause  <a href="https://chrome.google.com/webstore/detail/igoccmpimadoamkfabcpelmkhpgiafhd"><img  src="https://img.shields.io/chrome-web-store/v/igoccmpimadoamkfabcpelmkhpgiafhd.svg"></a> <a href="https://chrome.google.com/webstore/detail/igoccmpimadoamkfabcpelmkhpgiafhd"><img src="https://img.shields.io/chrome-web-store/users/igoccmpimadoamkfabcpelmkhpgiafhd.svg"></a>
-  
+   FacePause 
 </h1>
 
 
@@ -24,16 +23,7 @@ Chrome (v56+) has a new FaceDetector API which basically lets you detect faces i
 
    
 ## How to install
-
-
-You can install FacePause from the [Chrome web store](https://chrome.google.com/webstore/detail/igoccmpimadoamkfabcpelmkhpgiafhd)
-
-<a href="https://chrome.google.com/webstore/detail/igoccmpimadoamkfabcpelmkhpgiafhd">
-    <img src="resources/CWS-dl.png" width="320">
- </a>
- <br> <br>
-
-Or download the Zip from this [release](https://github.com/Hemmingsson/Face-Pause/releases/tag/0.1), unzip it and load it as an unpacked extension in Chrome.
+Download the Zip from this [release](https://github.com/Hemmingsson/Face-Pause/releases/tag/0.1), unzip it and load it as an unpacked extension in Chrome.
 
 ## Notice
 
