@@ -10,7 +10,7 @@
 #### Look Away to Pause Youtube - Experimental Chrome Extension
 
 
-Chrome (v56+) has a new FaceDetector API which basically lets you detect faces in images easily, so what if we could pause Youtube when you look away or go for a sandwich 🥪?
+FacePause uses the experimental native `FaceDetector` API. Its availability depends on the browser and operating system; enabling a flag does not guarantee support. Unsupported detection stops the webcam and displays a message. See [Chrome’s Shape Detection API documentation](https://developer.chrome.com/docs/capabilities/shape-detection).
 
 
   <br>
@@ -23,7 +23,7 @@ Chrome (v56+) has a new FaceDetector API which basically lets you detect faces i
 
    
 ## How to install
-Download the Zip from this [release](https://github.com/Hemmingsson/Face-Pause/releases/tag/0.1), unzip it and load it as an unpacked extension in Chrome.
+Build from source using the instructions below, then load `build/chrome` as an unpacked extension. The historical 0.1 release uses Manifest V2 and does not include these changes.
 
 ## Notice
 
@@ -36,14 +36,14 @@ Download the Zip from this [release](https://github.com/Hemmingsson/Face-Pause/r
 ## Development
 
 ### Installation
-1. Clone the repository `git clone https://github.com/Hemmingsson/Face-Pause`
-2. Run `npm install`
+1. Clone the repository `git clone https://github.com/Hemmingsson/FacePause`
+2. Use Node.js 22 or later and run `npm ci`
 3. Run `npm run build`
 
 ##### Load the extension in Chrome
 1. Open Chrome browser and navigate to chrome://extensions
 2. Select "Developer Mode" and then click "Load unpacked extension..."
-3. From the file browser, choose to `Face-Pause/build/chrome`
+3. From the file browser, choose to `FacePause/build/chrome`
 
 
 ### Developing
@@ -60,3 +60,7 @@ The following task can be used when you want to start developing the extension
 
 
 
+
+## Build checks
+
+`npm run build` creates Chrome Manifest V3 and Firefox Manifest V2 builds. Run `npm test` after building to check bundled assets and webcam failure handling. `npm run dist` creates ZIP files in `dist/`.

@@ -8,9 +8,9 @@ let faceDetector
 let webCamStream
 let undetectedTimer
 let detectInterval
+let captureGeneration = 0
 
-// When Video player appears in the wild, Inititate Extension
-sentinel.on('#movie_player', elm => initExtension())
+
 
 const initExtension = () => {
   if (!isExtensionExisting()) {
@@ -20,24 +20,32 @@ const initExtension = () => {
   }
 }
 
-const initCapture = () => {
-  const elmVideo = document.querySelector('#webcam-player')
-  const elmCanvas = document.querySelector('#webcam-canvas')
-  const canvasContext = elmCanvas.getContext('2d')
-  if (faceDetector === undefined) faceDetector = new FaceDetector()
-  // show help message to allow webcam connection if no action is taken for 2 seconds
-  let allowMessageTimeOut = setTimeout(() => { updateStatus(status.allowWebCam) }, 2000)
-  askForWebCamAccess().then(stream => {
-    startCapture(stream, elmVideo, elmCanvas, canvasContext)
+const initCapture = async () => {
+  const generation = ++captureGeneration
+  const video = document.querySelector('#webcam-player')
+  const canvas = document.querySelector('#webcam-canvas')
+  let allowMessageTimeOut
+  try {
+    if (!faceDetector) faceDetector = new FaceDetector()
+    allowMessageTimeOut = setTimeout(() => { updateStatus(status.allowWebCam) }, 2000)
+    const stream = await askForWebCamAccess()
+    if (generation !== captureGeneration) {
+      stream.getTracks().forEach(track => track.stop())
+      return
+    }
+    await streamWebCam(stream, video)
+    if (generation !== captureGeneration) return
+    startCapture(stream, video, canvas, canvas.getContext('2d'))
+  } catch (error) {
+    if (generation !== captureGeneration) return
+    stopCapture()
+    updateStatus(error.name === 'NotAllowedError' ? status.webCameBlocked : status.detectionUnavailable)
+  } finally {
     clearTimeout(allowMessageTimeOut)
-  }).catch(() => {
-    failToCapture()
-    clearTimeout(allowMessageTimeOut)
-  })
+  }
 }
 
 const startCapture = (stream, video, canvas, context, timeOut) => {
-  streamWebCam(stream, video)
   toggleCameraIcon()
   blinkCameraIcon(true)
   startFaceDetection(video, canvas, context)
@@ -46,10 +54,13 @@ const startCapture = (stream, video, canvas, context, timeOut) => {
 }
 
 const stopCapture = () => {
+  captureGeneration++
   faceWasDetectedOnce = false
+  clearTimeout(undetectedTimer)
+  undetectedTimer = undefined
   clearInterval(detectInterval)
   stopWebCam()
-  toggleCameraIcon()
+  document.querySelector('.status').classList.remove('--on')
   blinkCameraIcon(false)
   document.querySelector('.disable input').checked = false
   showCaptureWindow(false)
@@ -76,7 +87,7 @@ const interactions = () => {
   elmDisable.addEventListener('click', toggleCapture)
 
   // When a user hits the play button, space or k, disable extension
-  elmYtPlayerButton.addEventListener('click', userPause)
+  elmYtPlayerButton?.addEventListener('click', userPause)
   window.addEventListener('keydown', e => { if (e.keyCode === 75) { userPause() } })
 }
 
@@ -99,13 +110,15 @@ const askForWebCamAccess = () => new Promise((resolve, reject) => {
 })
 
 const streamWebCam = (stream, video) => {
-  video.src = window.URL.createObjectURL(stream)
+  video.srcObject = stream
   webCamStream = stream
-  video.play()
+  return video.play()
 }
 
 const stopWebCam = () => {
-  if (webCamStream) webCamStream.getTracks()[0].stop()
+  if (webCamStream) webCamStream.getTracks().forEach(track => track.stop())
+  webCamStream = undefined
+  document.querySelector('#webcam-player').srcObject = null
 }
 
 /* ==========================================================================
@@ -113,33 +126,44 @@ const stopWebCam = () => {
    ========================================================================== */
 
 const startFaceDetection = (video, canvas, context) => {
-  detectInterval = setInterval(() => {
-    drawWebCam(video, canvas, context)
-    detectFaces(canvas, context)
+  let detectionPending = false
+  const generation = captureGeneration
+  detectInterval = setInterval(async () => {
+    if (detectionPending || video.readyState < 2) return
+    detectionPending = true
+    try {
+      drawWebCam(video, canvas, context)
+      const faces = await faceDetector.detect(canvas)
+      if (generation !== captureGeneration || !isExtensionActive()) return
+      faces.length ? faceDetected(faces, context) : faceUndetected()
+    } catch (error) {
+      if (generation === captureGeneration) {
+        stopCapture()
+        updateStatus(status.detectionUnavailable)
+      }
+    } finally {
+      detectionPending = false
+    }
   }, 100)
-}
-
-const detectFaces = async (canvas, context) => {
-  const faces = await faceDetector.detect(canvas)
-  const faceWasDetected = faces.length
-  faceWasDetected ? faceDetected(faces, context) : faceUndetected(faces, canvas)
 }
 
 const faceDetected = (faces, context) => {
   clearTimeout(undetectedTimer)
+  undetectedTimer = undefined
   updateStatus(status.detected)
   drawFaceBoxes(faces, context)
   if (!isYoutTubePlaying()) videoPlays()
   if (!faceWasDetectedOnce) {
     faceWasDetectedOnce = true
-    setTimeout(() => { showCaptureWindow(false) }, 2000)
+    setTimeout(() => { if (isExtensionActive()) showCaptureWindow(false) }, 2000)
   }
 }
 
-const faceUndetected = (faces, canvas) => {
-  undetectedTimer = setTimeout(async () => {
-    const faces = await faceDetector.detect(canvas)
-    if (isExtensionActive() && !faces.length && faceWasDetectedOnce && isYoutTubePlaying()) {
+const faceUndetected = () => {
+  if (undetectedTimer) return
+  undetectedTimer = setTimeout(() => {
+    undetectedTimer = undefined
+    if (isExtensionActive() && faceWasDetectedOnce && isYoutTubePlaying()) {
       videoPause()
       updateStatus(status.undetected)
     }
@@ -190,7 +214,7 @@ const toggleCameraIcon = () => toggleElmClass('.status', '--on')
 
 const togglePlayerVisebility = () => isExtensionActive() ? toggleElmClass('.webcam', '--visible') : showCaptureWindow(false)
 
-const videoPlays = () => document.querySelector('#movie_player video').play()
+const videoPlays = () => document.querySelector('#movie_player video').play().catch(() => {})
 
 const videoPause = () => document.querySelector('#movie_player video').pause()
 
@@ -207,13 +231,14 @@ const status = {
   undetected: 'No Face Detected',
   extensionDisabled: 'FacePause Disabled',
   startingDetection: 'Detecting face...',
+  detectionUnavailable: 'Face detection is unavailable on this browser or device. FacePause has stopped the webcam.',
   webCameBlocked: 'You have blocked acces to the webcam, click the 🔒 to the left of the address bar to change'
 }
 
-const updateStatus = status => {
+const updateStatus = message => {
   let elmMessage = document.querySelector('.message')
-  if (elmMessage.innerHTML !== status) elmMessage.innerHTML = status
-  if (status === status.enableExperimental) experimentalFeaturesLink()
+  if (elmMessage.innerHTML !== message) elmMessage.innerHTML = message
+  if (message === status.enableExperimental) experimentalFeaturesLink()
 }
 
 /* ==========================================================================
@@ -227,3 +252,6 @@ const isYoutTubePlaying = () => !document.querySelector('#movie_player video').p
 const isExtensionExisting = () => document.querySelector('.extension')
 
 const experimentalFeaturesLink = () => document.querySelector('.extension a').addEventListener('click', () => { chrome.runtime.sendMessage('openFlags') })
+
+// Register after initialization so an existing player can be handled safely.
+sentinel.on('#movie_player', () => initExtension())

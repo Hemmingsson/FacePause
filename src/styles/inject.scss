@@ -1,3 +1,4 @@
+@use "sass:color";
 $height: 50px;
 $gray: #e0e0e0;
 $red: #ff0002;
@@ -18,7 +19,7 @@ $border: 1px solid $gray;
 
     height: $height;
 
-    color: darken($gray, 30%);
+    color: color.adjust($gray, $lightness: -30%);
     border-top: $border;
     border-left: $border;
     background: white;
@@ -86,7 +87,7 @@ $border: 1px solid $gray;
 
         cursor: pointer;
 
-        color: darken($gray, 20%);
+        color: color.adjust($gray, $lightness: -20%);
         border-left: $border;
 
         justify-content: center;
